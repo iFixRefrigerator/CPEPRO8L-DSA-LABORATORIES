@@ -6,6 +6,8 @@
 - Write a profiling program using Python's `time` module to measure execution time.
 - Compare O(1), O(n), and O(n²) growth curves using microsecond measurements.
 
+---
+
 ## 2. Execution & Output
 
 ### Task 1: Object ID and Mutable References
