@@ -1,5 +1,7 @@
 # Laboratory Activity 01: Python References & Complexity Profiling
 
+---
+
 ## 1. Objectives
 - Differentiate between mutable and immutable object references using the `id()` function.
 - Demonstrate how variable assignment copies references, not data, causing side effects.
