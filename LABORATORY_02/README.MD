@@ -45,7 +45,7 @@ Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
 - Resizes happen when the array reaches capacity: at **1, 2, 4, 8** (and would continue at 16, 32, etc.).
 
 **Question 2: Why does the dynamic array copy elements during resize?**  
-- Dynamic arrays must allocate a new, larger contiguous block of memory in the background. Python doesn't automatically extend the original block, so all existing elements must be copied to the new memory location to preserve their order and data.
+- Dynamic arrays allocate a new, larger contiguous block of memory when the current array becomes full. All existing elements must then be copied to the new array so their data and order are preserved.
 
 **Question 3: What is the time complexity of a single resize operation?**  
 - A single resize is **O(n)** because it loops through all `n` existing elements to copy them to the new array. However, because resizing happens infrequently (doubling), the *amortized* time for `append` is still **O(1)**.
@@ -54,7 +54,7 @@ Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
 
 ## 4. Conclusions
 
-By building this dynamic array manually, we observe that `append` operations are generally fast (O(1)), but occasionally trigger an expensive O(n) resize. Doubling the capacity reduces the number of resizes, making the array efficient overall.
+Most append operations run in O(1) time, but an append that triggers resizing takes O(n) time. Because resizing occurs infrequently when capacity is doubled, the amortized time complexity of append remains O(1).
 
 ---
 
