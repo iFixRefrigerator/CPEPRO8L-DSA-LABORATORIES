@@ -32,7 +32,7 @@ Are list_a and list_b now the same? False
 ```
 
 ## Task 2: Execution Profiling (O(1), O(n), O(n²))
-**Code:** [`task2_profiling.py`](task_profiling.py)
+**Code:** [`task2_profiling.py`](task2_profiling.py)
 
 **Benchmarking Table (in microseconds):**
 
