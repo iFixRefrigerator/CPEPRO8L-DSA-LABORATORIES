@@ -1,10 +1,14 @@
 # Laboratory Activity 02: Custom Dynamic Array Builder
+
 ---
+
 ## 1. Objectives
 - Implement a custom dynamic array class from scratch using Python's `ctypes` module.
 - Understand capacity scaling, memory doubling, and the cost of element copying.
 - Observe how index access works in O(1) constant time complexity.
+
 ---
+
 ## 2. Execution & Output
 
 **Code:** [`lab2_dynamic_array.py`](lab2_dynamic_array.py)
