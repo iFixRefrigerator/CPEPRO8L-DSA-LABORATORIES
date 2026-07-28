@@ -45,6 +45,7 @@ Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
 - A single resize is **O(n)** because it loops through all `n` existing elements to copy them to the new array. However, because resizing happens infrequently (doubling), the *amortized* time for `append` is still **O(1)**.
 ---
 ## 4. Conclusions
+
 By building this dynamic array manually, we observe that `append` operations are generally fast (O(1)), but occasionally trigger an expensive O(n) resize. Doubling the capacity reduces the number of resizes, making the array efficient overall.
 ---
 ## Files Included
