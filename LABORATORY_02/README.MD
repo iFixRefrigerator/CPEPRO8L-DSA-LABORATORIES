@@ -10,6 +10,7 @@
 **Code:** [`lab2_dynamic_array.py`](lab2_dynamic_array.py)
 
 **Console Output:**
+```
 --- Starting append loop ---
 Appending 0 | Size: 1 | Capacity: 1 | Element at index 0: 0
 Resizing from 1 to 2
@@ -25,3 +26,4 @@ Appending 7 | Size: 8 | Capacity: 8 | Element at index 7: 7
 Resizing from 8 to 16
 Appending 8 | Size: 9 | Capacity: 16 | Element at index 8: 8
 Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
+```
