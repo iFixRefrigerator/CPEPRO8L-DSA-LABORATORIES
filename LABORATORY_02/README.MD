@@ -32,7 +32,9 @@ Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
 - The array resizes when `size == capacity`.
 - Resize occurs at capacities: **1 → 2 → 4 → 8 → 16** (doubling each time).
 - After each resize, new elements can be added without immediate resizing.
+
 ---
+
 ## 3. Analysis Questions
 
 **Question 1: At what sizes do capacity resizes occur?**  
@@ -43,11 +45,15 @@ Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
 
 **Question 3: What is the time complexity of a single resize operation?**  
 - A single resize is **O(n)** because it loops through all `n` existing elements to copy them to the new array. However, because resizing happens infrequently (doubling), the *amortized* time for `append` is still **O(1)**.
+
 ---
+
 ## 4. Conclusions
 
 By building this dynamic array manually, we observe that `append` operations are generally fast (O(1)), but occasionally trigger an expensive O(n) resize. Doubling the capacity reduces the number of resizes, making the array efficient overall.
+
 ---
+
 ## Files Included
 - `lab2_dynamic_array.py` – Source code
 - `README.md` – Lab report
