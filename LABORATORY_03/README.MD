@@ -14,11 +14,11 @@
 **Code:** [`lab3_singly_linked_list.py`](lab3_singly_linked_list.py)
 
 **Console Output:**
-'''
+```
 20 -> 10 -> 30 -> None
 20 -> 30 -> None
 Is 30 in list? True
-'''
+```
 
 ---
 
