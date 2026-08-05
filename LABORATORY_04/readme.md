@@ -13,7 +13,6 @@ The program includes the following classes:
 ```
 - DoubleNode
 - DoublyLinkedList
-- Node
 - CircularSinglyLinkedList
 ```
 
