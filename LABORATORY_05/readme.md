@@ -95,7 +95,7 @@ python lab05_bracket_parser.py
 
 ## Author
 
-**YOUR NAME HERE**
+**Robles, John Vincent M.**
 
 ## GitHub Repository
 
