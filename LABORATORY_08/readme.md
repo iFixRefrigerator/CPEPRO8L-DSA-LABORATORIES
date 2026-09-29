@@ -44,7 +44,7 @@ python lab8_bst.py
 
 Inserted values: `[50, 30, 70, 20, 40, 60, 80]`
 
-![BST Test Tree](images/bst_tree.png)
+![BST Test Tree](images/bst_tree.JPG)
 
 ```
           50
