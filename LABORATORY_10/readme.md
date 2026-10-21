@@ -20,11 +20,11 @@
 
 ```text
 $ python lab10_hash_table.py
-Bucket 0: 
-Bucket 1: 
-Bucket 2: [Alice: 25]
-Bucket 3: 
-Bucket 4: [Bob: 30] -> [Charlie: 35]
+Bucket 0: [Bob: 30]
+Bucket 1: [Charlie: 35]
+Bucket 2: 
+Bucket 3: [Alice: 25]
+Bucket 4:
 
 Load factor: 0.60
 ```
@@ -37,7 +37,7 @@ Load factor: 0.60
 | `put("Bob", 30)`     | Bob     | 275       | 0             | 0 → [Bob:30]                |
 | `put("Charlie", 35)` | Charlie | 696       | 1             | 1 → [Charlie:35]            |
 | `put("Don", 40)`     | Don     | 289       | 4             | 4 → [Don:40]                |
-| `put("Eve", 22)`     | Eve     | 288       | 3             | 3 → [Alce:25] -> [Eve:22] ⚠️ collision |
+| `put("Eve", 22)`     | Eve     | 288       | 3             | 3 → [Alice:25] -> [Eve:22] ⚠️ collision |
 
 
 ---
@@ -58,22 +58,20 @@ ht.display()
 **Output:**
 
 ```
-Bucket 0: [Bob: 30]
-Bucket 1: [Charlie: 35]
+Bucket 0: 
+Bucket 1: 
 Bucket 2: 
-Bucket 3: [Alice: 25]
-Bucket 4: 
-
-Load factor: 0.60
+Bucket 3: [Alice: 25] -> [Eve: 22]
+Bucket 4:  
 ```
 
 **Recorded collision entries:**
 
 | Bucket | Chain Contents                |
 |--------|-------------------------------|
-| 1      | `[Don: 40] -> [Eve: 22]`      |
+| 3      | `[Alice: 25] -> [Eve: 22]`      |
 
-Both `"Don"` and `"Eve"` map to **bucket 1**, producing a collision. The `next` pointer in the `HashNode` for `"Don"` links to the `HashNode` for `"Eve"`, forming a **linked list chain** inside bucket 1 — this is **separate chaining**.
+Both "Alice" and "Eve" map to **bucket 3**, producing a collision. The `next` pointer in the `HashNode` for `"Alice"` links to the `HashNode` for `"Eve"`, forming a **linked list chain** inside bucket 3 — this is **separate chaining**.
 
 ---
 
@@ -93,7 +91,7 @@ Both `"Don"` and `"Eve"` map to **bucket 1**, producing a collision. The `next` 
 
 **Summary:** Chaining gives **more predictable performance** at high load factors because its search cost grows linearly with α rather than exploding like `1/(1−α)` in linear probing. Linear probing, however, is **cache-friendlier** and pointer-free, making it faster in practice at low load factors (α < 0.5). For a general-purpose hash table with unknown key distributions, **chaining is safer**; for read-heavy, memory-constrained workloads, **linear probing** wins.
 
-**Empirical note from our trace:** With 3 entries in 5 buckets (α = 0.6), chaining still resolves any lookup in ≤ 2 probes, whereas linear probing at α = 0.6 averages ≈ 3.1 probes per successful lookup — and worsens sharply as α → 1.
+**Performance note:** With three entries in five buckets, the load factor is 0.60. Search efficiency in separate chaining depends on the distribution of keys and the length of each linked list. Linear probing uses a different collision-resolution strategy, so a separate implementation would be needed to compare their search performance experimentally.
 
 ---
 
