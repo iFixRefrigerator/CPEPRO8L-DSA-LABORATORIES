@@ -34,10 +34,10 @@ Load factor: 0.60
 | Operation            | Key     | ASCII Sum | Index (mod 5) | Bucket State After          |
 |----------------------|---------|-----------|---------------|-----------------------------|
 | `put("Alice", 25)`   | Alice   | 478       | 3             | 3 → [Alice:25]              |
-| `put("Bob", 30)`     | Bob     | 275       | 0             | 4 → [Bob:30]                |
-| `put("Charlie", 35)` | Charlie | 696       | 1             | 0 → [Charlie:35]            |
-| `put("Don", 40)`     | Don     | 289       | 4             | 1 → [Don:40]                |
-| `put("Eve", 22)`     | Eve     | 288       | 3             | 1 → [Don:40] -> [Eve:22] ⚠️ collision |
+| `put("Bob", 30)`     | Bob     | 275       | 0             | 0 → [Bob:30]                |
+| `put("Charlie", 35)` | Charlie | 696       | 1             | 1 → [Charlie:35]            |
+| `put("Don", 40)`     | Don     | 289       | 4             | 4 → [Don:40]                |
+| `put("Eve", 22)`     | Eve     | 288       | 3             | 3 → [Alce:25] -> [Eve:22] ⚠️ collision |
 
 
 ---
@@ -58,11 +58,13 @@ ht.display()
 **Output:**
 
 ```
-Bucket 0: 
-Bucket 1: 
+Bucket 0: [Bob: 30]
+Bucket 1: [Charlie: 35]
 Bucket 2: 
-Bucket 3: [Alice: 25] -> [Eve: 22]
+Bucket 3: [Alice: 25]
 Bucket 4: 
+
+Load factor: 0.60
 ```
 
 **Recorded collision entries:**
