@@ -1,0 +1,168 @@
+LAB 12 - GRAPH TRAVERSALS AND SHORTEST-PATH ROUTING
+=========================================================
+Graph: Graph(undirected, weighted, vertices=11, edges=14)
+Neighbour-processing rule: ascending vertex label.
+Weights are walking times in minutes (undirected campus graph).
+
+1. EDGE TABLE
+-------------
+        edge  minutes
+     ADM-ART      4.0
+     ADM-ENG      2.0
+     ADM-LIB      2.0
+    ADM-PARK      1.0
+     CAF-DOR      5.0
+     CAF-LIB      6.0
+     CAF-SCI      2.0
+     DOR-GYM      6.0
+     DOR-MED      2.0
+     ENG-GYM      8.0
+     ENG-SCI      3.0
+     GYM-MED      7.0
+     GYM-SCI      4.0
+     LIB-SCI      3.0
+
+2. ADJACENCY LIST
+-----------------
+  ADM   -> ART(4), ENG(2), LIB(2), PARK(1)
+  ART   -> ADM(4)
+  CAF   -> DOR(5), LIB(6), SCI(2)
+  DOR   -> CAF(5), GYM(6), MED(2)
+  ENG   -> ADM(2), GYM(8), SCI(3)
+  GYM   -> DOR(6), ENG(8), MED(7), SCI(4)
+  LIB   -> ADM(2), CAF(6), SCI(3)
+  MED   -> DOR(2), GYM(7)
+  OBS   -> (isolated)
+  PARK  -> ADM(1)
+  SCI   -> CAF(2), ENG(3), GYM(4), LIB(3)
+
+3. BFS TRACE FROM ADM
+---------------------
+Queue is shown before the selected vertex is removed.
+step  queue before pop              sel    discovered            visited / order
+   1  [ADM]                         ADM    [ART, ENG, LIB, PARK]  [ADM, ART, ENG, LIB, PARK]
+   2  [ART, ENG, LIB, PARK]         ART    []                    [ADM, ART, ENG, LIB, PARK]
+   3  [ENG, LIB, PARK]              ENG    [GYM, SCI]            [ADM, ART, ENG, GYM, LIB, PARK, SCI]
+   4  [LIB, PARK, GYM, SCI]         LIB    [CAF]                 [ADM, ART, CAF, ENG, GYM, LIB, PARK, SCI]
+   5  [PARK, GYM, SCI, CAF]         PARK   []                    [ADM, ART, CAF, ENG, GYM, LIB, PARK, SCI]
+   6  [GYM, SCI, CAF]               GYM    [DOR, MED]            [ADM, ART, CAF, DOR, ENG, GYM, LIB, MED, PARK, SCI]
+   7  [SCI, CAF, DOR, MED]          SCI    []                    [ADM, ART, CAF, DOR, ENG, GYM, LIB, MED, PARK, SCI]
+   8  [CAF, DOR, MED]               CAF    []                    [ADM, ART, CAF, DOR, ENG, GYM, LIB, MED, PARK, SCI]
+   9  [DOR, MED]                    DOR    []                    [ADM, ART, CAF, DOR, ENG, GYM, LIB, MED, PARK, SCI]
+  10  [MED]                         MED    []                    [ADM, ART, CAF, DOR, ENG, GYM, LIB, MED, PARK, SCI]
+BFS order from ADM: ADM -> ART -> ENG -> LIB -> PARK -> GYM -> SCI -> CAF -> DOR -> MED
+
+4. DFS TRACE FROM ADM (RECURSION / CALL STACK)
+----------------------------------------------
+The call stack is shown when a vertex is entered; rightmost is top.
+step  call stack                          sel    order
+   1  [ADM]                               ADM    [ADM]
+   2  [ADM, ART]                          ART    [ADM, ART]
+   3  [ADM, ENG]                          ENG    [ADM, ART, ENG]
+   4  [ADM, ENG, GYM]                     GYM    [ADM, ART, ENG, GYM]
+   5  [ADM, ENG, GYM, DOR]                DOR    [ADM, ART, ENG, GYM, DOR]
+   6  [ADM, ENG, GYM, DOR, CAF]           CAF    [ADM, ART, ENG, GYM, DOR, CAF]
+   7  [ADM, ENG, GYM, DOR, CAF, LIB]      LIB    [ADM, ART, ENG, GYM, DOR, CAF, LIB]
+   8  [ADM, ENG, GYM, DOR, CAF, LIB, SCI]  SCI    [ADM, ART, ENG, GYM, DOR, CAF, LIB, SCI]
+   9  [ADM, ENG, GYM, DOR, MED]           MED    [ADM, ART, ENG, GYM, DOR, CAF, LIB, SCI, MED]
+  10  [ADM, PARK]                         PARK   [ADM, ART, ENG, GYM, DOR, CAF, LIB, SCI, MED, PARK]
+DFS order from ADM: ADM -> ART -> ENG -> GYM -> DOR -> CAF -> LIB -> SCI -> MED -> PARK
+(The explicit-stack implementation produces the same order/tree; see section 6.)
+
+5. SECOND STARTING VERTEX (GYM)
+-------------------------------
+BFS order from GYM: GYM -> DOR -> ENG -> MED -> SCI -> CAF -> ADM -> LIB -> ART -> PARK
+BFS hops from GYM:  ADM=2, ART=3, CAF=2, DOR=1, ENG=1, GYM=0, LIB=2, MED=1, PARK=3, SCI=1
+DFS order from GYM: GYM -> DOR -> CAF -> LIB -> ADM -> ART -> ENG -> SCI -> PARK -> MED
+DFS depth from GYM: ADM=4, ART=5, CAF=2, DOR=1, ENG=5, GYM=0, LIB=3, MED=2, PARK=5, SCI=6
+
+6. RECURSIVE vs ITERATIVE DFS AGREEMENT
+---------------------------------------
+  start=ADM   same order/tree: True
+  start=GYM   same order/tree: True
+  start=SCI   same order/tree: True
+  start=OBS   same order/tree: True
+
+7. DIJKSTRA SETTLE TRACE FROM ADM
+---------------------------------
+step  sel      dist  updated neighbours
+   1  ADM         0  ART=4, ENG=2, LIB=2, PARK=1
+   2  PARK        1  -
+   3  ENG         2  GYM=10, SCI=5
+   4  LIB         2  CAF=8
+   5  ART         4  -
+   6  SCI         5  CAF=7, GYM=9
+   7  CAF         7  DOR=12
+   8  GYM         9  MED=16
+   9  DOR        12  MED=14
+  10  MED        14  -
+
+8. ROUTING TABLE FROM ADM (WEIGHTED SHORTEST PATHS)
+---------------------------------------------------
+target   minutes  hops  path
+ART            4     1  ADM -> ART
+CAF            7     3  ADM -> ENG -> SCI -> CAF
+DOR           12     4  ADM -> ENG -> SCI -> CAF -> DOR
+ENG            2     1  ADM -> ENG
+GYM            9     3  ADM -> ENG -> SCI -> GYM
+LIB            2     1  ADM -> LIB
+MED           14     5  ADM -> ENG -> SCI -> CAF -> DOR -> MED
+OBS     unreachable     -  -
+PARK           1     1  ADM -> PARK
+SCI            5     2  ADM -> ENG -> SCI
+
+9. UNREACHABLE / ISOLATED VERTEX
+--------------------------------
+  unreachable from ADM: ['OBS']
+  OBS (Observatory) has no edges, so it cannot be routed to.
+  dijkstra from OBS reaches only: ['OBS']
+
+10. EQUAL-COST ALTERNATIVES
+---------------------------
+  ADM -> SCI: 2 equal-cost path(s)
+    cost 5: ADM -> ENG -> SCI
+    cost 5: ADM -> LIB -> SCI
+  ADM -> CAF: 2 equal-cost path(s)
+    cost 7: ADM -> ENG -> SCI -> CAF
+    cost 7: ADM -> LIB -> SCI -> CAF
+
+11. BFS TREE vs DIJKSTRA TREE FROM ADM
+--------------------------------------
+vertex  BFS hops  BFS path                    Dijkstra  Dijkstra path
+ART            1  ADM -> ART                         4  ADM -> ART
+CAF            2  ADM -> LIB -> CAF                  7  ADM -> ENG -> SCI -> CAF
+DOR            3  ADM -> ENG -> GYM -> DOR          12  ADM -> ENG -> SCI -> CAF -> DOR
+ENG            1  ADM -> ENG                         2  ADM -> ENG
+GYM            2  ADM -> ENG -> GYM                  9  ADM -> ENG -> SCI -> GYM
+LIB            1  ADM -> LIB                         2  ADM -> LIB
+MED            3  ADM -> ENG -> GYM -> MED          14  ADM -> ENG -> SCI -> CAF -> DOR -> MED
+OBS            -  -                                inf  -
+PARK           1  ADM -> PARK                        1  ADM -> PARK
+SCI            2  ADM -> ENG -> SCI                  5  ADM -> ENG -> SCI
+Note: for MED, BFS uses 3 hops but Dijkstra uses 14 minutes via
+      a different route.  Fewest edges is not fastest travel.
+
+12. DIRECTED GRAPH SUPPORT
+--------------------------
+Graph: Graph(directed, weighted, vertices=5, edges=6)
+  ADM->LIB exists: True; LIB->ADM exists: False
+  BFS from ADM:   ADM -> ENG -> LIB -> SCI -> GYM
+  ADM        0  ADM
+  ENG        2  ADM -> ENG
+  GYM        4  ADM -> ENG -> SCI -> GYM
+  LIB        1  ADM -> LIB
+  SCI        3  ADM -> ENG -> SCI
+
+13. INVALID-INPUT HANDLING EVIDENCE
+-----------------------------------
+  [negative weight] rejected: negative edge weight -3 rejected: Dijkstra requires non-negative weights
+  [non-unit weight on unweighted graph] rejected: unweighted graphs only accept unit weights (weight=1)
+  [duplicate edge] rejected: duplicate edge 'A'-'B'
+  Dijkstra requires non-negative weights because it settles a
+  vertex permanently once its distance is the smallest in the
+  queue; a later negative edge could lower that settled distance,
+  so the greedy assumption would be false.
+
+DONE
+----
+Wrote routing_results.txt
